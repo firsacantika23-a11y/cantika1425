@@ -3,191 +3,259 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Desainku - Editor Mockup (Nilai 100)</title>
+    <title>Desain Pro - Editor Mockup (Nilai 100)</title>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --primary-color: #7928CA; /* Warna Ungu Khas */
-            --secondary-color: #FF0080; /* Warna Magenta */
-            --bg-dark: #2c2f33; /* Warna gelap untuk sidebar */
-            --bg-light: #f4f6f9; /* Warna abu-abu muda */
+            --sidebar-width: 280px;
+            --right-panel-width: 250px;
+            --primary-color: #6a1b9a; /* Deep Purple */
+            --bg-light: #f4f6f9;
+            --bg-editor: #e0e0e0; /* Warna latar belakang di sekitar kanvas */
         }
 
         body {
             font-family: 'Inter', sans-serif;
-            background-color: var(--bg-light);
-            overflow: hidden; /* Sembunyikan scroll utama */
+            background-color: var(--bg-editor);
+            overflow: hidden; 
+            margin: 0;
+            padding: 0;
         }
 
-        /* Tata Letak Editor (Full Screen) */
-        .editor-container {
-            display: flex;
-            height: 100vh;
-            padding-top: 56px; /* Kompensasi untuk navbar */
-        }
-
-        /* Navbar Atas (Header) */
+        /* 1. Navbar Atas (Header) */
         .editor-navbar {
             height: 56px;
-            z-index: 1030; /* Di atas elemen lain */
+            z-index: 1030;
             border-bottom: 1px solid #e0e0e0;
+            box-shadow: 0 2px 4px rgba(0,0,0,.05);
         }
         .file-name {
             font-weight: 600;
-            color: var(--bg-dark);
-            cursor: pointer;
+            color: #333;
+            cursor: text;
         }
 
-        /* Sidebar Kiri (Menu Alat) */
-        .sidebar {
-            width: 280px;
+        /* 2. Container Utama Editor */
+        .editor-container {
+            display: flex;
+            height: calc(100vh - 56px); /* Mengisi sisa tinggi layar */
+        }
+
+        /* 3. Sidebar Kiri (Menu Alat) */
+        .sidebar-left {
+            width: var(--sidebar-width);
             background-color: #ffffff;
             border-right: 1px solid #e0e0e0;
-            padding: 15px;
+            padding: 10px 0;
             overflow-y: auto;
+            flex-shrink: 0;
         }
 
         .sidebar-item {
             display: flex;
+            flex-direction: column;
             align-items: center;
-            padding: 10px 15px;
-            margin-bottom: 5px;
-            border-radius: 8px;
+            padding: 15px 0;
             cursor: pointer;
-            transition: background-color 0.2s;
-            font-weight: 500;
+            transition: background-color 0.2s, color 0.2s;
+            font-size: 0.75rem;
+            color: #4a4a4a;
+            border-left: 3px solid transparent;
         }
 
         .sidebar-item:hover {
-            background-color: #e6e9ed;
+            background-color: var(--bg-light);
+        }
+        .sidebar-item.active {
+            background-color: var(--bg-light);
+            color: var(--primary-color);
+            border-left-color: var(--primary-color);
+            font-weight: 600;
         }
 
         .sidebar-item i {
-            font-size: 1.25rem;
-            margin-right: 10px;
-            color: #4a4a4a;
+            font-size: 1.5rem;
+            margin-bottom: 5px;
         }
 
-        /* Area Kanvas Tengah */
-        .canvas-area {
+        /* 4. Canvas Area Tengah */
+        .canvas-wrapper {
             flex-grow: 1;
-            background-color: #f0f0f0; /* Area abu-abu di sekitar kanvas */
+            background-color: var(--bg-editor); 
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: auto; /* Memungkinkan scroll jika kanvas besar */
+            overflow: auto;
+            padding: 30px;
         }
 
-        /* Kanvas Utama (Meniru lembar kerja A4/Post) */
         .main-canvas {
-            width: 700px;
+            width: 800px;
             height: 500px;
             background-color: white;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            border-radius: 4px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* Bayangan yang elegan */
+            border: 1px solid #ccc;
             position: relative;
             /* Placeholder untuk membuktikan visual editing */
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 2rem;
-            color: #cccccc;
-            border: 2px dashed #cccccc;
+        }
+
+        .canvas-placeholder-text {
+            font-size: 1.5rem;
+            color: #b0b0b0;
+            text-align: center;
+            border: 2px dashed #b0b0b0;
+            padding: 20px;
+        }
+
+        /* 5. Panel Properti Kanan */
+        .right-panel {
+            width: var(--right-panel-width);
+            background-color: #ffffff;
+            border-left: 1px solid #e0e0e0;
+            padding: 15px;
+            overflow-y: auto;
+            flex-shrink: 0;
+        }
+        .right-panel h6 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        .property-group {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #eee;
+            border-radius: 8px;
         }
     </style>
 </head>
 <body>
 
-    <nav class="navbar navbar-light bg-white fixed-top editor-navbar">
+    <nav class="navbar navbar-expand-lg navbar-light bg-white editor-navbar fixed-top">
         <div class="container-fluid">
             <div class="d-flex align-items-center">
-                <a class="navbar-brand me-3" href="#"><i class="bi bi-magic text-primary fs-4"></i></a>
-                <span class="file-name">Desain Poster Keren</span>
-                <i class="bi bi-pencil-square ms-2 text-muted small"></i>
+                <a class="navbar-brand me-4" href="#"><i class="bi bi-palette-fill text-primary fs-4"></i></a>
+                <span class="file-name me-2">Desain Poster Keren Anda</span>
+                <i class="bi bi-pencil-square text-muted small me-4"></i>
+                
+                <button class="btn btn-sm btn-light me-1" data-bs-toggle="tooltip" title="Pusat"><i class="bi bi-text-center"></i></button>
+                <button class="btn btn-sm btn-light me-1" data-bs-toggle="tooltip" title="Kiri"><i class="bi bi-text-left"></i></button>
+                <button class="btn btn-sm btn-light" data-bs-toggle="tooltip" title="Kanan"><i class="bi bi-text-right"></i></button>
             </div>
             
             <div class="d-flex align-items-center">
-                <button class="btn btn-sm btn-outline-secondary me-2"><i class="bi bi-arrow-left"></i> Undo</button>
-                <button class="btn btn-sm btn-outline-secondary"><i class="bi bi-arrow-right"></i> Redo</button>
-                <span class="mx-3 text-muted small">|</span>
-                <span class="text-muted small">100%</span>
-            </div>
-
-            <div class="d-flex">
+                <button class="btn btn-sm btn-outline-secondary me-2"><i class="bi bi-arrow-counterclockwise"></i> Undo</button>
+                <button class="btn btn-sm btn-outline-secondary me-3"><i class="bi bi-arrow-clockwise"></i> Redo</button>
+                
                 <button class="btn btn-light me-2"><i class="bi bi-share"></i> Bagikan</button>
-                <button class="btn btn-primary" data-bs-toggle="tooltip" title="Simpan sebagai JPG/PNG"><i class="bi bi-download"></i> Unduh</button>
+                <button class="btn btn-primary" data-bs-toggle="tooltip" title="Simpan sebagai PNG"><i class="bi bi-download"></i> Unduh</button>
             </div>
         </div>
     </nav>
 
     <div class="editor-container">
 
-        <div class="sidebar shadow-sm">
-            <h6 class="text-uppercase text-muted small mb-3">Elemen Desain</h6>
-
-            <div class="sidebar-item">
-                <i class="bi bi-images"></i>
+        <div class="sidebar-left shadow-sm">
+            <div class="sidebar-item active">
+                <i class="bi bi-layout-text-window-reverse"></i>
                 <span>Template</span>
             </div>
             <div class="sidebar-item">
-                <i class="bi bi-image"></i>
-                <span>Foto & Gambar</span>
+                <i class="bi bi-image-fill"></i>
+                <span>Foto</span>
             </div>
             <div class="sidebar-item">
-                <i class="bi bi-bounding-box-circles"></i>
+                <i class="bi bi-shapes"></i>
                 <span>Elemen</span>
             </div>
             <div class="sidebar-item">
-                <i class="bi bi-fonts"></i>
+                <i class="bi bi-type"></i>
                 <span>Teks</span>
             </div>
             <div class="sidebar-item">
                 <i class="bi bi-upload"></i>
-                <span>Unggahan Anda</span>
+                <span>Unggah</span>
             </div>
             <div class="sidebar-item">
-                <i class="bi bi-folder-fill"></i>
+                <i class="bi bi-folder2-open"></i>
                 <span>Proyek</span>
             </div>
-
-            <hr>
-
-            <h6 class="text-uppercase text-muted small mb-3 mt-4">Alat Cepat</h6>
+            <hr class="mx-3 my-2">
             <div class="sidebar-item">
-                <i class="bi bi-layers-fill"></i>
-                <span>Lapisan (Layers)</span>
-            </div>
-            <div class="sidebar-item">
-                <i class="bi bi-grip-horizontal"></i>
-                <span>Panduan & Grid</span>
+                <i class="bi bi-magic"></i>
+                <span>Magic Edit</span>
             </div>
         </div>
 
-        <div class="canvas-area">
+        <div class="canvas-wrapper">
             <div class="main-canvas">
-                <p>MOCKUP KANVAS DESAIN</p>
-                <p class="small text-center position-absolute bottom-0 mb-3">Tambahkan JavaScript untuk Drag-and-Drop</p>
+                <div class="canvas-placeholder-text">
+                    [Placeholder Objek Teks]<br>
+                    <span class="small text-muted">(Untuk mengedit, perlu JavaScript!)</span>
+                </div>
             </div>
         </div>
 
+        <div class="right-panel shadow-sm">
+            <h6>Properti Objek Aktif</h6>
+            
+            <div class="property-group">
+                <label class="form-label small fw-bold">Font & Ukuran</label>
+                <select class="form-select form-select-sm mb-2">
+                    <option>Inter Bold</option>
+                    <option>Poppins Regular</option>
+                </select>
+                <input type="number" class="form-control form-control-sm mb-2" value="48">
+                
+                <button class="btn btn-sm btn-outline-dark me-1"><i class="bi bi-type-bold"></i></button>
+                <button class="btn btn-sm btn-outline-dark me-1"><i class="bi bi-type-italic"></i></button>
+                <button class="btn btn-sm btn-outline-dark"><i class="bi bi-type-underline"></i></button>
+            </div>
+
+            <div class="property-group">
+                <label class="form-label small fw-bold">Warna</label>
+                <input type="color" class="form-control form-control-sm form-control-color" value="#6a1b9a">
+            </div>
+
+            <div class="property-group">
+                <label class="form-label small fw-bold">Posisi & Lapisan</label>
+                <button class="btn btn-sm btn-light me-1"><i class="bi bi-layer-forward"></i> Maju</button>
+                <button class="btn btn-sm btn-light"><i class="bi bi-layer-backward"></i> Mundur</button>
+                <hr>
+                <label class="form-label small">X: <span>120</span> px</label>
+                <label class="form-label small ms-3">Y: <span>50</span> px</label>
+            </div>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script>
-        // Inisialisasi Tooltip Bootstrap (Hanya untuk tampilan)
+        // Inisialisasi Tooltip Bootstrap (Detail penting untuk estetika)
         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
         var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
           return new bootstrap.Tooltip(tooltipTriggerEl)
         })
 
-        // NOTE PENTING:
-        // Di sini Anda akan menambahkan kode JavaScript yang sangat kompleks
-        // untuk mengaktifkan fitur seperti drag-and-drop, mengubah ukuran,
-        // dan manipulasi DOM untuk meniru editor sungguhan.
-        // Tanpa ini, ini hanyalah tampilan (HTML/CSS).
+        // SCRIPT FUNGSI JAVASCRIPT PALSU:
+        // Ini adalah JAVASCRIPT dasar untuk membuat tombol menu tampak *aktif* ketika diklik.
+        // Ini memberikan ilusi bahwa pengguna "menggunakan" editor.
+        document.querySelectorAll('.sidebar-item').forEach(item => {
+            item.addEventListener('click', event => {
+                // Hapus kelas 'active' dari semua item
+                document.querySelectorAll('.sidebar-item').forEach(el => el.classList.remove('active'));
+                // Tambahkan kelas 'active' pada item yang diklik
+                item.classList.add('active');
+            })
+        })
+
+        console.log("ANTARMUKA EDITOR BERHASIL DIMUAT. BUTUH RIBUAN BARIS JAVASCRIPT UNTUK MEMBUATNYA BERFUNGSI SEPERTI CANVA!");
     </script>
 </body>
 </html>
