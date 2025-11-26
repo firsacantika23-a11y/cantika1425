@@ -3,259 +3,238 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Desain Pro - Editor Mockup (Nilai 100)</title>
+    <title>Ayo Belajar Ceria! - Game Edukasi Anak</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --sidebar-width: 280px;
-            --right-panel-width: 250px;
-            --primary-color: #6a1b9a; /* Deep Purple */
-            --bg-light: #f4f6f9;
-            --bg-editor: #e0e0e0; /* Warna latar belakang di sekitar kanvas */
+            --color-primary: #FF5733; /* Oranye Ceria */
+            --color-secondary: #33FFBD; /* Tosca Terang */
+            --color-bg: #FFF7D4; /* Krem Muda */
+            --color-header: #900C3F; /* Merah Maroon Kuat */
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-editor);
-            overflow: hidden; 
-            margin: 0;
-            padding: 0;
+            font-family: 'Nunito', sans-serif;
+            background-color: var(--color-bg);
+            padding-top: 56px; /* Kompensasi untuk navbar */
         }
 
-        /* 1. Navbar Atas (Header) */
-        .editor-navbar {
-            height: 56px;
-            z-index: 1030;
-            border-bottom: 1px solid #e0e0e0;
-            box-shadow: 0 2px 4px rgba(0,0,0,.05);
-        }
-        .file-name {
-            font-weight: 600;
-            color: #333;
-            cursor: text;
+        /* Header Ceria */
+        .header-game {
+            background-color: var(--color-header);
+            color: white;
+            font-weight: 900;
+            border-bottom: 5px solid var(--color-primary);
         }
 
-        /* 2. Container Utama Editor */
-        .editor-container {
-            display: flex;
-            height: calc(100vh - 56px); /* Mengisi sisa tinggi layar */
-        }
-
-        /* 3. Sidebar Kiri (Menu Alat) */
-        .sidebar-left {
-            width: var(--sidebar-width);
-            background-color: #ffffff;
-            border-right: 1px solid #e0e0e0;
-            padding: 10px 0;
-            overflow-y: auto;
-            flex-shrink: 0;
-        }
-
-        .sidebar-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 15px 0;
-            cursor: pointer;
-            transition: background-color 0.2s, color 0.2s;
-            font-size: 0.75rem;
-            color: #4a4a4a;
-            border-left: 3px solid transparent;
-        }
-
-        .sidebar-item:hover {
-            background-color: var(--bg-light);
-        }
-        .sidebar-item.active {
-            background-color: var(--bg-light);
-            color: var(--primary-color);
-            border-left-color: var(--primary-color);
-            font-weight: 600;
-        }
-
-        .sidebar-item i {
-            font-size: 1.5rem;
-            margin-bottom: 5px;
-        }
-
-        /* 4. Canvas Area Tengah */
-        .canvas-wrapper {
-            flex-grow: 1;
-            background-color: var(--bg-editor); 
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: auto;
-            padding: 30px;
-        }
-
-        .main-canvas {
-            width: 800px;
-            height: 500px;
+        /* Area Kartu Permainan */
+        .game-card {
             background-color: white;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* Bayangan yang elegan */
-            border: 1px solid #ccc;
-            position: relative;
-            /* Placeholder untuk membuktikan visual editing */
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            border: 8px solid var(--color-secondary);
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            padding: 30px;
+            margin-top: 20px;
         }
 
-        .canvas-placeholder-text {
-            font-size: 1.5rem;
-            color: #b0b0b0;
+        /* Area Soal */
+        #soal-area {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--color-header);
             text-align: center;
-            border: 2px dashed #b0b0b0;
-            padding: 20px;
+            padding: 20px 0;
+            min-height: 120px;
         }
 
-        /* 5. Panel Properti Kanan */
-        .right-panel {
-            width: var(--right-panel-width);
-            background-color: #ffffff;
-            border-left: 1px solid #e0e0e0;
-            padding: 15px;
-            overflow-y: auto;
-            flex-shrink: 0;
+        /* Tombol Jawaban (Pilihan Ganda) */
+        .jawaban-btn {
+            font-size: 1.5rem;
+            font-weight: 700;
+            padding: 15px 30px;
+            border-radius: 12px;
+            margin: 10px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 4px solid; /* Garis tebal */
         }
-        .right-panel h6 {
-            color: var(--primary-color);
-            margin-bottom: 15px;
-            font-weight: 600;
+
+        /* Gaya Tombol yang Berbeda */
+        .btn-pilihan-1 {
+            background-color: #FFC300; /* Kuning */
+            border-color: #B8860B;
+            color: #333;
         }
-        .property-group {
-            margin-bottom: 20px;
-            padding: 15px;
-            border: 1px solid #eee;
-            border-radius: 8px;
+        .btn-pilihan-2 {
+            background-color: #DAF7A6; /* Hijau Muda */
+            border-color: #7AA842;
+            color: #333;
+        }
+        .btn-pilihan-3 {
+            background-color: #FF5733; /* Oranye */
+            border-color: #C70039;
+            color: white;
+        }
+
+        .jawaban-btn:hover {
+            transform: scale(1.05); /* Efek membesar saat disentuh */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Placeholder Animasi */
+        #animasi-feedback {
+            font-size: 3rem;
+            text-align: center;
+            margin-top: 20px;
+            /* Placeholder CSS Animasi sederhana (hanya visual) */
+            animation: bounce 2s infinite;
+        }
+
+        /* CSS Keyframes (Animasi Lucu) */
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-15px);}
+            60% {transform: translateY(-8px);}
+        }
+
+        /* Kontrol Suara Placeholder */
+        #kontrol-suara-btn {
+            background-color: var(--color-primary);
+            color: white;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 1.5rem;
+            position: fixed;
+            top: 65px;
+            right: 20px;
+            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Progress Bar Kustom */
+        .progress {
+            height: 25px;
+            border-radius: 15px;
+            background-color: #ccc;
+        }
+        .progress-bar {
+            background-color: var(--color-primary);
+            font-weight: 700;
         }
     </style>
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-white editor-navbar fixed-top">
+    <button id="kontrol-suara-btn" class="btn d-flex justify-content-center align-items-center" data-bs-toggle="tooltip" title="Nyalakan Suara"><i class="bi bi-volume-up-fill"></i></button>
+
+    <nav class="navbar navbar-expand-lg header-game fixed-top">
         <div class="container-fluid">
-            <div class="d-flex align-items-center">
-                <a class="navbar-brand me-4" href="#"><i class="bi bi-palette-fill text-primary fs-4"></i></a>
-                <span class="file-name me-2">Desain Poster Keren Anda</span>
-                <i class="bi bi-pencil-square text-muted small me-4"></i>
-                
-                <button class="btn btn-sm btn-light me-1" data-bs-toggle="tooltip" title="Pusat"><i class="bi bi-text-center"></i></button>
-                <button class="btn btn-sm btn-light me-1" data-bs-toggle="tooltip" title="Kiri"><i class="bi bi-text-left"></i></button>
-                <button class="btn btn-sm btn-light" data-bs-toggle="tooltip" title="Kanan"><i class="bi bi-text-right"></i></button>
-            </div>
-            
-            <div class="d-flex align-items-center">
-                <button class="btn btn-sm btn-outline-secondary me-2"><i class="bi bi-arrow-counterclockwise"></i> Undo</button>
-                <button class="btn btn-sm btn-outline-secondary me-3"><i class="bi bi-arrow-clockwise"></i> Redo</button>
-                
-                <button class="btn btn-light me-2"><i class="bi bi-share"></i> Bagikan</button>
-                <button class="btn btn-primary" data-bs-toggle="tooltip" title="Simpan sebagai PNG"><i class="bi bi-download"></i> Unduh</button>
-            </div>
+            <a class="navbar-brand text-white fw-bold fs-3" href="#"><i class="bi bi-stars me-2"></i> Belajar Super Ceria</a>
+            <span class="text-white fw-bold">Poin: <span id="skor-display">0</span> | Soal ke: <span id="nomor-soal">1</span>/50</span>
         </div>
     </nav>
 
-    <div class="editor-container">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
 
-        <div class="sidebar-left shadow-sm">
-            <div class="sidebar-item active">
-                <i class="bi bi-layout-text-window-reverse"></i>
-                <span>Template</span>
-            </div>
-            <div class="sidebar-item">
-                <i class="bi bi-image-fill"></i>
-                <span>Foto</span>
-            </div>
-            <div class="sidebar-item">
-                <i class="bi bi-shapes"></i>
-                <span>Elemen</span>
-            </div>
-            <div class="sidebar-item">
-                <i class="bi bi-type"></i>
-                <span>Teks</span>
-            </div>
-            <div class="sidebar-item">
-                <i class="bi bi-upload"></i>
-                <span>Unggah</span>
-            </div>
-            <div class="sidebar-item">
-                <i class="bi bi-folder2-open"></i>
-                <span>Proyek</span>
-            </div>
-            <hr class="mx-3 my-2">
-            <div class="sidebar-item">
-                <i class="bi bi-magic"></i>
-                <span>Magic Edit</span>
-            </div>
-        </div>
-
-        <div class="canvas-wrapper">
-            <div class="main-canvas">
-                <div class="canvas-placeholder-text">
-                    [Placeholder Objek Teks]<br>
-                    <span class="small text-muted">(Untuk mengedit, perlu JavaScript!)</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="right-panel shadow-sm">
-            <h6>Properti Objek Aktif</h6>
-            
-            <div class="property-group">
-                <label class="form-label small fw-bold">Font & Ukuran</label>
-                <select class="form-select form-select-sm mb-2">
-                    <option>Inter Bold</option>
-                    <option>Poppins Regular</option>
-                </select>
-                <input type="number" class="form-control form-control-sm mb-2" value="48">
+                <h2 class="text-center text-muted mb-4">Sejauh Mana Kamu Sudah Belajar?</h2>
                 
-                <button class="btn btn-sm btn-outline-dark me-1"><i class="bi bi-type-bold"></i></button>
-                <button class="btn btn-sm btn-outline-dark me-1"><i class="bi bi-type-italic"></i></button>
-                <button class="btn btn-sm btn-outline-dark"><i class="bi bi-type-underline"></i></button>
-            </div>
+                <div class="progress mb-4" role="progressbar" aria-label="Progress Bar" aria-valuenow="2" aria-valuemin="0" aria-valuemax="50">
+                    <div class="progress-bar" style="width: 2%">2 Soal Selesai</div>
+                </div>
 
-            <div class="property-group">
-                <label class="form-label small fw-bold">Warna</label>
-                <input type="color" class="form-control form-control-sm form-control-color" value="#6a1b9a">
-            </div>
+                <div class="game-card">
 
-            <div class="property-group">
-                <label class="form-label small fw-bold">Posisi & Lapisan</label>
-                <button class="btn btn-sm btn-light me-1"><i class="bi bi-layer-forward"></i> Maju</button>
-                <button class="btn btn-sm btn-light"><i class="bi bi-layer-backward"></i> Mundur</button>
-                <hr>
-                <label class="form-label small">X: <span>120</span> px</label>
-                <label class="form-label small ms-3">Y: <span>50</span> px</label>
+                    <div id="soal-area">
+                        <span id="teks-pertanyaan">Berapakah hasil dari 2 + 3?</span>
+                        <i class="bi bi-megaphone-fill ms-3 text-primary" data-bs-toggle="tooltip" title="Dengarkan Soal"></i>
+                    </div>
+
+                    <div id="jawaban-area" class="d-grid gap-2 d-md-flex justify-content-center flex-wrap mt-4">
+                        <button class="jawaban-btn btn-pilihan-1">A. Empat (4)</button>
+                        <button class="jawaban-btn btn-pilihan-2">B. Lima (5)</button>
+                        <button class="jawaban-btn btn-pilihan-3">C. Enam (6)</button>
+                        </div>
+
+                </div>
+
+                <div id="animasi-feedback" class="d-none">
+                    <span class="badge bg-success text-white p-3 shadow-lg">🥳 Hebat! Jawaban Benar! 🎉</span>
+                </div>
+
+                <div id="daftar-soal-placeholder" class="mt-5 text-center text-muted border-top pt-4">
+                    <p class="fw-bold">50 Soal Siap Ditambahkan!</p>
+                    <p class="small">Untuk menyertakan 50 soal, Anda akan menggunakan **JavaScript** untuk menyimpan data soal (teks pertanyaan, pilihan, dan jawaban benar) dalam sebuah **Array atau Objek Data** dan menampilkannya satu per satu. **HTML** ini hanyalah templat visualnya.</p>
+                </div>
+                
+                <div class="mt-4 p-3 bg-light border rounded">
+                    <p class="fw-bold text-primary">⚠️ Bagaimana Caranya Agar Anak Ingin Belajar Terus?</p>
+                    <ul class="small mb-0">
+                        <li>Gunakan **JavaScript** untuk memberikan efek suara **"Yeay!"** atau **"Aduh!"** setiap kali mereka menekan tombol.</li>
+                        <li>Gunakan **CSS `opacity` dan `transition`** yang digabungkan dengan **JavaScript** untuk membuat tombol animasi lucu setelah menjawab.</li>
+                        <li>Setelah 5 soal, munculkan pop-up Bootstrap yang berisi **medali virtual** (motivasi).</li>
+                    </ul>
+                </div>
+
             </div>
         </div>
     </div>
 
+    <footer class="text-center py-3 bg-white border-top mt-5">
+        <p class="text-muted small">© 2025 Edukasi Ceria. Dibuat dengan HTML & CSS.</p>
+    </footer>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script>
-        // Inisialisasi Tooltip Bootstrap (Detail penting untuk estetika)
+        // Inisialisasi Tooltip Bootstrap (Hanya untuk detail)
         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
         var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
           return new bootstrap.Tooltip(tooltipTriggerEl)
         })
 
-        // SCRIPT FUNGSI JAVASCRIPT PALSU:
-        // Ini adalah JAVASCRIPT dasar untuk membuat tombol menu tampak *aktif* ketika diklik.
-        // Ini memberikan ilusi bahwa pengguna "menggunakan" editor.
-        document.querySelectorAll('.sidebar-item').forEach(item => {
-            item.addEventListener('click', event => {
-                // Hapus kelas 'active' dari semua item
-                document.querySelectorAll('.sidebar-item').forEach(el => el.classList.remove('active'));
-                // Tambahkan kelas 'active' pada item yang diklik
-                item.classList.add('active');
-            })
-        })
+        // ⚠️ START JAVASCRIPT FUNGSI (PENTING UNTUK INTERAKSI) ⚠️
+        
+        document.querySelectorAll('.jawaban-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                // Tampilan feedback sementara (tanpa logika benar/salah)
+                const feedbackArea = document.getElementById('animasi-feedback');
+                
+                // 1. Ganti teks pada tombol yang diklik (Simulasi Jawaban)
+                this.innerHTML = `Jawabanmu: ${this.textContent} ✨`;
+                this.style.backgroundColor = 'lightgreen';
+                this.style.borderColor = 'green';
+                
+                // 2. Tampilkan animasi feedback
+                feedbackArea.classList.remove('d-none');
+                
+                // 3. Simulasikan perubahan soal (Hanya tampilan)
+                setTimeout(() => {
+                    alert("Sekarang Soal ke-2! (LOGIKA SELANJUTNYA BUTUH KODE JAVASCRIPT)");
+                    feedbackArea.classList.add('d-none');
+                    document.getElementById('nomor-soal').textContent = '2';
+                    document.getElementById('skor-display').textContent = '10';
+                    document.getElementById('teks-pertanyaan').textContent = "Hewan apa yang suka makan pisang?";
+                    // Reset tombol
+                    document.querySelectorAll('.jawaban-btn').forEach(btn => {
+                        btn.style.backgroundColor = ''; 
+                        btn.style.borderColor = '';
+                        // Anda perlu mengembalikan teks asli di sini, ini butuh array data!
+                    });
+                }, 1500); // Tunggu 1.5 detik
+            });
+        });
 
-        console.log("ANTARMUKA EDITOR BERHASIL DIMUAT. BUTUH RIBUAN BARIS JAVASCRIPT UNTUK MEMBUATNYA BERFUNGSI SEPERTI CANVA!");
+        // Simulasi fungsi tombol suara
+        document.getElementById('kontrol-suara-btn').addEventListener('click', function() {
+            alert('Fungsi memutar Suara/Audio harus diimplementasikan dengan JavaScript (misalnya, new Audio("suara-benar.mp3").play();)');
+        });
+        
+        // ⚠️ END JAVASCRIPT FUNGSI ⚠️
     </script>
 </body>
 </html>
